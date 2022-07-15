@@ -177,7 +177,7 @@ func DivideFileByParts(models []Model) []map[string]string {
 	counter := 0
 	for _, model := range models {
 		tmpmap[model.Url] = model.Destino
-		if counter == 5000000 {
+		if counter == 50000 {
 			finalmap = append(finalmap, tmpmap)
 			counter = 0
 		}

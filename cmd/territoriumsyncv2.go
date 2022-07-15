@@ -13,7 +13,7 @@ var territoriumsync = &cobra.Command{
 	Short: "test",
 	Long:  "test2",
 	Run: func(cmd *cobra.Command, args []string) {
-		modules.DownloadFromBlobStorage("/Users/r4st4m4n/Downloads/pilot_sena_jul_8.csv", "local", "pruebas-devops-2022")
+		modules.DownloadFromBlobStorage(path, downloadtype, bucketname)
 	},
 }
 
