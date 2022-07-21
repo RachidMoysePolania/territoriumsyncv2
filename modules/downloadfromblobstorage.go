@@ -51,7 +51,6 @@ func DownloadFromBlobStorage(pathfile string, typeofdownload string, bucketname 
 					defer f.Close()
 					f.Write(data)
 			}()
-			}
 		}
 	case "uploadtoaws":
 		for _, result := range results {
