@@ -52,18 +52,21 @@ func DownloadFromBlobStorage(url string) ([]byte, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		errlog.Println(fmt.Sprintf("Error al hacer la peticion: %v", err))
+		log.Println(fmt.Sprintf("Error al hacer la peticion: %v", err))
 		return nil, err
 	}
 
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		errlog.Println(fmt.Sprintf("Error al leer los datos del body: %v", err))
+		log.Println(fmt.Sprintf("Error al leer los datos del body: %v", err))
 		return nil, err
 	}
 
 	//FIXME
 	if strings.Contains(string(data), "BlobArchived") {
 		errlog.Println("Archived File! skipping")
+		log.Println("Archived File! skipping")
 		return nil, errors.New(fmt.Sprintf("Archived File! Skipping: %v", url))
 	}
 
@@ -74,6 +77,7 @@ func UploadDataToS3Bucket(filename string, data []byte, bucketname string) *mana
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		errlog.Println(fmt.Sprintf("Error al cargar la configuracion!: %v", err))
+		log.Println(fmt.Sprintf("Error al cargar la configuracion!: %v", err))
 	}
 
 	client := s3.NewFromConfig(cfg)
@@ -85,6 +89,7 @@ func UploadDataToS3Bucket(filename string, data []byte, bucketname string) *mana
 	})
 	if err != nil {
 		errlog.Println(fmt.Sprintf("Error al subir los archivos al bucket S3: %v", err))
+		log.Println(fmt.Sprintf("Error al subir los archivos al bucket S3: %v", err))
 	}
 	return result
 }
@@ -110,6 +115,7 @@ func ParsingUrl(urls ...string) ([]string, error) {
 		decoded, err := url.QueryUnescape(u)
 		if err != nil {
 			errlog.Println("error al decodear la url")
+			log.Println("error al decodear la url")
 			return nil, err
 		}
 		decodedurls = append(decodedurls, decoded)
@@ -162,6 +168,7 @@ func DownloadFilesFromBucket(bucket string, files ...string) ([]byte, error) {
 		})
 		if err != nil {
 			errlog.Println(fmt.Sprintf("Error al descargar los archivos!: %v", err))
+			log.Println(fmt.Sprintf("Error al descargar los archivos!: %v", err))
 			return nil, err
 		}
 		if numbytes < 1 {
